@@ -1,19 +1,15 @@
-#ifndef DWARF_H
-#define DWARF_H
+#ifndef _DWARF_H_
+#define _DWARF_H_
 #include "player.h"
-using namespace std;
 
-class Dwarf: public Player{
+class Dwarf: public Player {
 public:
-	Dwarf( Cell* cell,  int HP = 100, \
-		 int maxHP = 100,  int Atk = 20,  int Def = 30, \
-		 double gold = 0,  int boostAtk = 0, \
-		 int boostDef = 0,  bool hasBarrierSuit = false, char symbol = '@');
+	Dwarf();
 	~Dwarf();
 
-	void addGold(const double g) override;
-	void use(Item* i) override;
+    void addGold(double g) override;
+	bool use(Item &i) override;
+    std::string getRace() const override;
 };
-
 
 #endif

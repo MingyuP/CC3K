@@ -17,8 +17,10 @@ enum class Direction {
 bool isDirection(const std::string &s);
 
 Direction toDirection(const std::string &s);
+Direction toDirection(int n);
 
 std::string toString(Direction d);
 
+int toInt(Direction d);
 
 #endif /*_DIRECTION_H_ */

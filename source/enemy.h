@@ -1,41 +1,27 @@
-#ifndef ENEMY_H
-#define ENEMY_H
+#ifndef _ENEMY_H_
+#define _ENEMY_H_
 #include "character.h"
-#include "item.h"
-#include <vector>
-#include <cstdlib>
-#include <cmath>
-using namespace std;
 
+class Item;
+class Cell;
 
-class Enemy: public Character{
-protected:
+class Enemy : public Character {
 	Item *item;
-	bool shouldMove = true;
+    virtual void dropGold(Character &c) const;
 public:
-	Enemy( Cell* cell,  char symbol,\
-	 int HP, int maxHP, int Atk,  int Def, \
-	 double gold,  Item* item);
-	virtual ~Enemy();
+	Enemy(char symbol, int HP, int Atk, int Def, Item *item = nullptr);
+	virtual ~Enemy() = 0;
 	
-	//accessors
-	Item* getItem() const;
-	virtual bool getShouldMove() const;
-	int getAtk() const override;
-	int getMaxHP() const;	
+	bool setItem(Item *i);
+    bool placeable() const;
+    
+    virtual bool isMovable(const Cell &c) const override;
 
-	//mutators
-	void setItem(Item* newItem);
-	void setShouldMove(bool sm);
-
-	//actions
-	virtual void die();
-	virtual void attack(Character* p);
-	virtual void defense(Character* p);
-	virtual void move();
-
+    bool attack(Character &c) override;
+	void defense(Character &c) override;
+    
+    bool use(Item &i) override final;
 };
-
 
 
 #endif

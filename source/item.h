@@ -2,33 +2,42 @@
 #define _ITEM_H_
 
 #include "subject.h"
-#include "cell.h"
+
+class Cell;
+class Player;
 
 class Orc;
 class Elves;
 class Dwarf;
 class Human;
-class Enemy;
-class Character;
+class Mingyu;
 
 class Item : public Subject {
     char symbol;
     Cell *cell;
-
+protected:
+    virtual void checkSameCell(Player &p);
 public:
-    Item(char sym, Cell *c);
+    Item(char symbol);
     virtual ~Item();
+    
     char getSymbol() const;
     int getRow() const;
     int getCol() const;
-    Cell *getCell() const;
-    virtual void setEnemy(Character*);
-    void setCell(Cell *c);
+    
     virtual bool isMovable() const;
-    virtual void usedBy(Orc &o) = 0;
-    virtual void usedBy(Elves &e) = 0;
-    virtual void usedBy(Dwarf &d) = 0;
-    virtual void usedBy(Human &h) = 0;   
+    
+    void setCell(Cell *c);
+    
+    virtual std::string peek() const = 0;
+    
+    virtual bool usedBy(Orc &o) = 0;
+    virtual bool usedBy(Elves &e) = 0;
+    virtual bool usedBy(Dwarf &d) = 0;
+    virtual bool usedBy(Human &h) = 0;
+    virtual bool usedBy(Mingyu &m) = 0;
+    
+    virtual bool isGeneratable(const Cell &c) const;
 };
 
 #endif

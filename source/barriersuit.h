@@ -2,21 +2,21 @@
 #define _BARRIERSUIT_H_
 
 #include "major.h"
-#include "invalidmove.h"
-#include <stdexcept>
 
-class Character;
+class Enemy;
 
 class BarrierSuit : public Major {
-    Character *dragon;
+    Enemy *dragon;
     
 public:
     BarrierSuit(Enemy *d);
-    void usedBy(Orc &o) override;
-    void usedBy(Elves &e) override;
-    void usedBy(Dwarf &d) override;
-    void usedBy(Human &h) override;
-    virtual void setEnemy(Character *) override;
+    bool isMovable() const override;
+    bool usedBy(Orc &o) override;
+    bool usedBy(Elves &e) override;
+    bool usedBy(Dwarf &d) override;
+    bool usedBy(Human &h) override;
+    bool usedBy(Mingyu &m) override;
+    std::string peek() const override;
 };
 
 #endif

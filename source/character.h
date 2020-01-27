@@ -1,45 +1,54 @@
-#ifndef CHARACTER_H
-#define CHARACTER_H
+#ifndef _CHARACTER_H_
+#define _CHARACTER_H_
 #include "subject.h"
-#include "cell.h"
-#include <utility>
-using namespace std;
+
+class Cell;
+class Item;
+class Normal;
+class SmallHorde;
+
+enum class Direction;
 
 class Character : public Subject {
-protected:
 	char symbol;
 	int HP;
 	int maxHP;
 	int Atk;
 	int Def;
-	double gold;
-	Cell* cell;
+	Cell *cell;
+
+	virtual int getBoostAtk() const;
+	virtual int getBoostDef() const;
+protected:
+    void dropItem(Item *item);
+    void selfRemoval();
 
 public:
-	Character( Cell* cell, int HP, \
-		 int maxHP, int Atk,  int Def, double gold, char symbol);
-	virtual ~Character();
+	Character(char symbol,int HP, int Atk, int Def);
+    ~Character();
 
-	//accessors
 	char getSymbol() const;
 	int getRow() const;
 	int getCol() const;
 	int getHP() const;
-	virtual int getAtk() const;
-	virtual int getDef() const;
-	bool isDead() const; 
-	Cell* getCell() const;
-	virtual bool getShouldMove() const = 0;
+	int getAtk() const;
+	int getDef() const;
+    Cell *getCell() const;
+    
+    virtual void addGold(double g);
 
-	//mutators
-	virtual void addGold(double g);
-	void setHP(const int hp);
-	void setCell(Cell* newCell);
+	void setHP(int hp);
+	void setCell(Cell *c);
 
-	//actions
-	virtual void die() = 0;
-	virtual void attack(Character* chara) = 0;
-	virtual void defense(Character* chara) = 0;
+	bool isDead() const;
+    
+	virtual bool isMovable(const Cell &c) const = 0;
+	virtual bool attack(Character &c) = 0;
+	virtual void defense(Character &c) = 0;
+    virtual bool use(Item &i) = 0;
+    
+    virtual bool isGeneratable(const Normal &t) const;
+    virtual bool isGeneratable(const SmallHorde &t) const;
 };
 
 

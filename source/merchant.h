@@ -1,20 +1,18 @@
-#ifndef MERCHANT_H
-#define MERCHANT_H
+#ifndef _MERCHANT_H_
+#define _MERCHANT_H_
 #include "enemy.h"
-#include <cstdlib>
-using namespace std;
+
 
 class Merchant: public Enemy{
-	static bool hostile;
+    static bool hostile;
+    void dropGold(Character &c) const override;
 public:
-	Merchant(Cell* cell,char symbol = 'M',int HP = 30, \
-		int maxHP = 30, int Atk = 70, int Def = 5, \
-		double gold = 0, Item* item = nullptr);
-	~Merchant();
+    Merchant(Item *hoard);
+    ~Merchant();
 
-	void attack(Character* p) override;
-	void defense(Character* p) override;
+    bool attack(Character &c) override;
+	void defense(Character &c) override;
+    static void reset();
 };
-
 
 #endif

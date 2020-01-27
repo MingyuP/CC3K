@@ -6,6 +6,8 @@
 class Normal : public Treasure {
 public:
     Normal();
+    
+    bool isGeneratable(const Cell &c) const override;
 };
 
 #endif

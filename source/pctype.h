@@ -7,11 +7,12 @@ enum class PCType {
     ORC,
     ELVES,
     DWARF,
-    HUMAN
+    HUMAN,
+    Mingyu
 };
 
-bool isPCType(const std::string &s);
+bool isPCType(char c);
 
-PCType toPCType(const std::string &s);
+PCType toPCType(char c);
 
 #endif /*_PCTYPE_H_ */

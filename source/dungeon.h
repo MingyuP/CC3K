@@ -1,56 +1,61 @@
 #ifndef _DUNGEON_H_
 #define _DUNGEON_H_
-#include <vector>
-#include <string>
-#include <fstream>
-#include <iostream>
 
 #include "subject.h"
-
-#include "gamestate.h"
-#include "direction.h"
+#include "floor.h"
 #include "pctype.h"
 
-#include "floor.h"
+#include <vector>
 
-#include "player.h"
-#include "human.h"
-#include "elves.h"
-#include "dwarf.h"
-#include "orc.h"
+class Observer;
+class Player;
+
+enum class GameState;
+enum class Direction;
 
 class Dungeon : public Subject {
+    Observer *observer;
+    
     Player *player;
-    std::vector<Floor*> floors;
-    int curLevel = 0;
-    int maxLevel = 5;
-    void nextFloor();
+    std::vector<Floor> floors;
+    
+    int level;
     GameState state;
-    void initiateFloors();
-    std::string pcRace;
-  public:
-    Dungeon(); // Constructor
-    ~Dungeon(); // Destructor
-    char getSymbol(int row, int col) const;
+    
+    void nextFloor();
+public:
+    Dungeon();
+    ~Dungeon();
+    
     GameState getState() const;
-    void load(std::string fname);
-    void loadDefault();
-    void generate();
-    void move(Direction dir);
-    void use(Direction dir);
-    void attack(Direction dir);
-    void enemyMove();
-    void setPlayer(PCType race);
-    void restart();
-    bool isOver() const;
-    bool hasWon() const;
-    std::string getPCRace() const;
+    void setState(GameState state);
+    
+    // for TextDisplay
     double getPCGold() const;
-    double getPCScore() const;
     int getPCHP() const;
     int getPCAtk() const;
     int getPCDef() const;
-    int getCurLevel() const;
+    double getPCScore() const;
+    int currentLevel() const;
+    std::string getPCRace() const;
+    char getSymbol(int row, int col) const;
+    char getForeground(int row, int col) const;
+    char getBackground(int row, int col) const;
+    void setObserver(Observer *observer);
+    
+    // for Game
+    void load(const std::string &filename = "default.txt");
+    void enemyTurn();
+    
+    // Game commands
+    void move(Direction dir);
+    void use(Direction dir);
+    void attack(Direction dir);
+    void setPlayer(PCType race = PCType::HUMAN);
+    void restart();
+    
+    // cheating mode
+    void transport();
 };
 
 #endif

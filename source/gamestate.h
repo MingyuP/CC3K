@@ -2,7 +2,7 @@
 #define _GAMESTATE_H_
 
 enum class GameState {
-    START, INGAME, WON, LOSE
+    START, START_COMMANDLINE, START_CURSOR, START_GRAPHICS, INGAME, WON, LOST
 };
 
 #endif

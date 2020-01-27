@@ -1,15 +1,11 @@
-#ifndef GOBLIN_H
-#define GOBLIN_H
+#ifndef _GOBLIN_H_
+#define _GOBLIN_H_
 #include "enemy.h"
-using namespace std;
 
-class Goblin: public Enemy{
+class Goblin: public Enemy {
 public:
-	Goblin( Cell* cell,  char symbol = 'N', int HP = 70, \
-		 int maxHP = 70,  int Atk = 5,  int Def = 10, \
-		 double gold = 0,  Item* item = nullptr);
-	~Goblin();
+    Goblin();
+    ~Goblin();
 };
-
 
 #endif

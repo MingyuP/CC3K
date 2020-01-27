@@ -1,55 +1,68 @@
 #ifndef _CELL_H_
 #define _CELL_H_
 #include <vector>
-
-class Character;
+#include "subject.h"
 
 class Item;
+class Normal;
+class SmallHorde;
 class Character;
-class Cell;
 class Enemy;
 class Player;
 
-class Cell {
-  protected:
+enum class Direction;
+
+class Cell : public Subject {
     char symbol;
     int row;
     int col;
-    Item* item;
-    Character* chara;
-    std::vector<Cell *> neighbours;
     bool visible;
-    int chamIndex = -1;
-    bool getVisible() const;
+    
+    Item *item;
+    Character *character;
+    
+    std::vector<Cell *> neighbors;
 
-  public:
-    // Big 5 Operators
-    Cell(int row, int col, char symbol); // Constructor
-    virtual ~Cell() = 0; // Destructor (Pure Virtual)
+public:
+    Cell(char symbol, int row, int col, bool visible = true);
+    virtual ~Cell() = 0;
 
-    // Getters
-    virtual char getSymbol() const;
+    char getSymbol() const;
+    char getFloorSymbol() const;
     int getRow() const;
     int getCol() const;
-    Item* getItem() const;
-    Character* getChara() const;
-    std::vector<Cell *> getNeighbours();
-    int getIndex() const;
+    Character *getCharacter() const;
+    
+    void addNeighbor(Cell *neighbor, int i);
+    void removeNeighbor(Cell *neighbor);
+    void replaceNeighbor(Cell *oldnei, Cell *newnei);
+    void replaceSelf(Cell *newone);
+    void cloneNeighbors(Cell *receiver);
 
-    // Mutators
-    void setItem(Item *otherItem);
-    void setChara(Character* otherChara);
-    void setVisible(bool otherVisibility);
-    void setIndex(int other);
+    void setItem(Item *i);
+    void setCharacter(Character *c);
+    void setVisible(bool v);
+    
+    bool use(Character &c);
+    void use(Direction d);
+    
+    void attack(Direction d);
+    bool attack(Character &attacker);
+    
+    std::string peek() const;
+    std::string peekNeighbor(Direction d) const;
 
-    // Other Methods
-    void addNeighbour(Cell* cell);
-    virtual void spreadIndex(int index);
-    virtual bool isMovable(Enemy &enemy) const;
-    virtual bool isMovable(Player &player) const;
-    virtual bool isGeneratable() const;
-    virtual bool isStair() const;
-    virtual bool isFloortile() const;
+    virtual bool isMovable(const Enemy &e) const;
+    virtual bool isMovable(const Player &p) const;
+    virtual bool isGeneratable(const Character &c) const;
+    virtual bool isGeneratable(const Item &i) const;
+    virtual bool isGeneratable(const Normal &t) const;
+    virtual bool isGeneratable(const SmallHorde &t) const;
+    
+    // player move
+    void moveTo(Direction d);
+    // enemy move
+    void randomMove();
 };
 
 #endif

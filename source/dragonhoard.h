@@ -2,20 +2,19 @@
 #define _DRAGONHOARD_H_
 
 #include "treasure.h"
-#include "invalidmove.h"
-#include <stdexcept>
 
-class Character;
+class Enemy;
 
 class DragonHoard : public Treasure {
-    Character *dragon;
+    Enemy *dragon;
 public:
     DragonHoard(Enemy *d);
-    void usedBy(Orc &o) override;
-    void usedBy(Elves &e) override;
-    void usedBy(Dwarf &d) override;
-    void usedBy(Human &h) override;
-    virtual void setEnemy(Character *other) override;
+    bool isMovable() const override;
+    bool usedBy(Orc &o) override;
+    bool usedBy(Elves &e) override;
+    bool usedBy(Dwarf &d) override;
+    bool usedBy(Human &h) override;
+    bool usedBy(Mingyu &m) override;
 };
 
 #endif

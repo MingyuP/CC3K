@@ -3,10 +3,11 @@
 #include "cell.h"
 
 class Door : public Cell {
-  public:
-    Door(int row, int col, char symbol); // Constructor
-    ~Door(); // Destructor
-    bool isMovable(Player &player) const override;
+public:
+    Door(int row, int col);
+    ~Door();
+    bool isMovable(const Enemy &enemy) const override;
+    bool isMovable(const Player &player) const override;
 };
 
 #endif
